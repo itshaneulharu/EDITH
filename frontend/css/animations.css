@@ -1,0 +1,85 @@
+/* ==========================================================================
+   ClearSight.ai — Animations
+   ========================================================================== */
+
+/* Basic Fade Ins */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-10px); }
+}
+
+/* Scanner Animations */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.scanner-sweep {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    height: 50%;
+    background: conic-gradient(from 0deg, transparent 70%, rgba(0, 212, 255, 0.8) 100%);
+    transform-origin: 0% 0%;
+    animation: sweep 2s linear infinite;
+    z-index: 1;
+}
+
+@keyframes sweep {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Pulse effects */
+@keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 var(--accent-glow); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 212, 255, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
+}
+
+/* Drag over animation */
+.upload-zone.dragover {
+    animation: dashBorder 1s linear infinite;
+}
+
+@keyframes dashBorder {
+    to { background-position: 100% 0, 0 100%, 0 0, 100% 100%; }
+}
+
+/* Typewriter cursor */
+.typewriter-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1em;
+    background-color: var(--accent);
+    vertical-align: text-bottom;
+    margin-left: 4px;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Scorecard Entrance */
+.scorecard-container {
+    animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popIn {
+    0% { opacity: 0; transform: scale(0.8) translateY(50px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Number counting up (handled mostly in JS, but style supports it) */
+.score-number.counting {
+    color: var(--accent);
+    text-shadow: 0 0 20px var(--accent-glow);
+}

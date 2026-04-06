@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ClearSight.ai — Turn unreadable server logs into plain-English security storyboards. Know if your website is under attack in seconds, not hours.">
+    <title>ClearSight.ai — The X-Ray for Your Website</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <!-- Particle Background Canvas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar no-print" id="navbar">
+        <a href="/" class="nav-brand" id="navBrandLogo" style="text-decoration: none;">
+            <div class="brand-icon">
+                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="18" stroke="url(#brandGrad)" stroke-width="2" fill="none"/>
+                    <path d="M20 8 L20 32 M12 16 L20 8 L28 16 M14 20 L26 20" stroke="url(#brandGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="20" cy="20" r="4" fill="url(#brandGrad)" opacity="0.6"/>
+                    <defs>
+                        <linearGradient id="brandGrad" x1="0" y1="0" x2="40" y2="40">
+                            <stop offset="0%" stop-color="#00d4ff"/>
+                            <stop offset="100%" stop-color="#00ff88"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <span class="brand-text" style="color: var(--text-primary);">ClearSight<span class="brand-ai">.ai</span></span>
+        </a>
+        <div class="nav-status" id="navStatus">
+            <span class="status-dot"></span>
+            <span class="status-text">Ready to scan</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- ===================== HERO SECTION ===================== -->
+        <section class="section hero-section active no-print" id="heroSection">
+            <div class="hero-badge">
+                <span class="badge-pulse"></span>
+                <span class="badge-text">AI-Powered Security Scanner</span>
+            </div>
+            <h1 class="hero-title">
+                <span class="title-line">The <span class="gradient-text">X-Ray</span> for</span>
+                <span class="title-line">Your Website</span>
+            </h1>
+            <p class="hero-subtitle">
+                Upload your server log → AI detects every attack → Get plain-English explanations & instant fixes.
+                <br><strong>No security knowledge required.</strong>
+            </p>
+
+            <!-- Upload Zone -->
+            <div class="upload-container" id="uploadContainer">
+                <div class="upload-zone" id="uploadZone">
+                    <div class="upload-icon">
+                        <svg viewBox="0 0 64 64" fill="none">
+                            <rect x="8" y="16" width="48" height="40" rx="4" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M32 28 L32 48" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M24 36 L32 28 L40 36" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 16 L20 12 A4 4 0 0 1 24 8 L40 8 A4 4 0 0 1 44 12 L44 16" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                    </div>
+                    <h3 class="upload-title">Drop your .log file here</h3>
+                    <p class="upload-desc">or click to browse • Supports Apache & Nginx logs</p>
+                    <input type="file" id="fileInput" accept=".log,.txt" hidden>
+                </div>
+
+                <div class="upload-divider">
+                    <span class="divider-line"></span>
+                    <span class="divider-text">OR</span>
+                    <span class="divider-line"></span>
+                </div>
+
+                <div class="paste-zone">
+                    <textarea id="logTextarea" class="log-textarea" placeholder="Paste your server log lines here...&#10;&#10;Example:&#10;192.168.1.1 - - [06/Apr/2026:10:15:32 +0530] &quot;GET /index.html HTTP/1.1&quot; 200 4523 &quot;-&quot; &quot;Mozilla/5.0&quot;" rows="5"></textarea>
+                </div>
+
+                <div class="upload-actions">
+                    <button class="btn btn-primary btn-lg" id="analyzeBtn">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="M21 21 L16.65 16.65"/>
+                        </svg>
+                        Analyze Logs
+                    </button>
+                    <button class="btn btn-ghost btn-lg" id="sampleBtn">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10"/>
+                        </svg>
+                        ⚡ Try Sample Log
+                    </button>
+                </div>
+                <p class="upload-hint" style="font-weight: 600; font-size: 1rem;">
+                    <svg class="hint-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    Logs are processed securely • No data is stored • Deleted instantly after analysis
+                </p>
+            </div>
+        </section>
+
+        <!-- ===================== LOADING SECTION ===================== -->
+        <section class="section loader-section" id="loaderSection">
+            <div class="scanner-container">
+                <div class="scanner-ring">
+                    <div class="scanner-ring-inner"></div>
+                    <div class="scanner-sweep"></div>
+                    <div class="scanner-center">
+                        <svg class="scanner-icon" viewBox="0 0 48 48" fill="none">
+                            <path d="M24 4 L24 44 M4 24 L44 24" stroke="#00d4ff" stroke-width="1" opacity="0.3"/>
+                            <circle cx="24" cy="24" r="6" fill="#00d4ff" opacity="0.6"/>
+                            <circle cx="24" cy="24" r="3" fill="#00d4ff"/>
+                        </svg>
+                    </div>
+                </div>
+                <h2 class="scanner-title" id="scannerTitle">Scanning Your Logs...</h2>
+                <div class="scanner-steps" id="scannerSteps">
+                    <div class="scan-step active" id="step1">
+                        <span class="step-icon">📄</span>
+                        <span class="step-text">Parsing log entries...</span>
+                    </div>
+                    <div class="scan-step" id="step2">
+                        <span class="step-icon">🔍</span>
+                        <span class="step-text">Detecting suspicious patterns...</span>
+                    </div>
+                    <div class="scan-step" id="step3">
+                        <span class="step-icon">🤖</span>
+                        <span class="step-text">AI analyzing threats...</span>
+                    </div>
+                    <div class="scan-step" id="step4">
+                        <span class="step-icon">📊</span>
+                        <span class="step-text">Generating security report...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== RESULTS SECTION ===================== -->
+        <section class="section results-section" id="resultsSection">
+            <!-- Summary Bar -->
+            <div class="results-header">
+                <div class="results-title-row">
+                    <h2 class="results-title">
+                        <svg class="results-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        Security Storyboard
+                    </h2>
+                    <button class="btn btn-antigravity" id="antigravityBtn">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="M12 8v4M12 16h.01"/>
+                        </svg>
+                        Generate Anti-Gravity Config
+                    </button>
+                    <button class="btn btn-accent" id="viewScorecardBtn">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <path d="M7 12 L10 15 L17 8"/>
+                        </svg>
+                        View Threat Scorecard
+                    </button>
+                </div>
+                <div class="summary-cards" id="summaryCards">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Threat Cards Grid -->
+            <div class="threats-grid" id="threatsGrid">
+                <!-- Populated by JS -->
+            </div>
+
+            <div class="results-footer">
+                <button class="btn btn-ghost" id="scanAgainBtn">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 4v6h6M23 20v-6h-6"/>
+                        <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
+                    </svg>
+                    Scan Another Log
+                </button>
+            </div>
+        </section>
+
+        <!-- ===================== SCORECARD SECTION ===================== -->
+        <section class="section scorecard-section" id="scorecardSection">
+            <div class="scorecard-container" id="scorecardContainer">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- ===================== PROTECTION MODAL ===================== -->
+        <div class="modal-overlay" id="protectionModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">
+                        <svg class="modal-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        <span id="modalThreatTitle">Protection Rules</span>
+                    </h3>
+                    <button class="modal-close" id="modalClose">&times;</button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== ANTI-GRAVITY CONFIG MODAL ===================== -->
+        <div class="modal-overlay" id="antigravityModal">
+            <div class="modal-content antigravity-modal">
+                <div class="modal-header antigravity-header">
+                    <h3 class="modal-title">
+                        <svg class="modal-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="M12 8v4M12 16h.01"/>
+                        </svg>
+                        <span>Anti-Gravity Security Config</span>
+                    </h3>
+                    <button class="modal-close" id="antigravityModalClose">&times;</button>
+                </div>
+                <div class="modal-body" id="antigravityModalBody">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/particles.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
