@@ -1,9 +1,0 @@
-{
-  "name": "clearsight-ai",
-  "version": "1.0.0",
-  "description": "The X-Ray for Your Website - Turn server logs into security storyboards",
-  "scripts": {
-    "start": "py backend/app.py",
-    "install-deps": "py -m pip install -r backend/requirements.txt"
-  }
-}
